@@ -8,7 +8,7 @@ from tqdm import tqdm
 import math
 from dataclasses import dataclass
 import ujson as json
-from simple_wikidata_db.db_deploy.utils import (
+from Wikidata.simple_wikidata_db.db_deploy.utils import (
     a_factory,
     Entity,
     Relation,
@@ -323,7 +323,7 @@ if __name__ == "__main__":
         "--input_dir",
         type=str,
         required=True,
-        help="Preprocessed Wikidata dumpfile directory",
+        help="Preprocessed Wikidata JSON file directory",
     )
     parser.add_argument(
         "--output_dir",
