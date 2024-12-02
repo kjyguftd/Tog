@@ -1,3 +1,4 @@
+import json
 from collections import defaultdict
 from multiprocessing import Queue
 
@@ -94,14 +95,14 @@ def process_json(obj, language_id="en"):
         )
         return dict(out_data)
     # extract labels
-    if language_id in obj["labels"]:
-        label = obj["labels"][language_id]["value"]
+    if obj["labels"]:
+        label = obj["labels"]["value"]
         out_data["labels"].append({"qid": id, "label": label})
         out_data["aliases"].append({"qid": id, "alias": label})
 
     # extract description
-    if language_id in obj["descriptions"]:
-        description = obj["descriptions"][language_id]["value"]
+    if obj["descriptions"]:
+        description = obj["descriptions"]["value"]
         out_data["descriptions"].append(
             {
                 "qid": id,
@@ -200,5 +201,19 @@ def process_data(language_id: str, work_queue: Queue, out_queue: Queue):
             break
         if len(json_obj) == 0:
             continue
-        out_queue.put(process_json(ujson.loads(json_obj), language_id))
+
+        json_fragments = []
+        while not work_queue.empty():
+            json_fragments.append(work_queue.get())
+
+        complete_json_str = '\n'.join(json_fragments)
+        print(f"Complete JSON String: {complete_json_str}")
+
+        try:
+            parsed_data = ujson.loads(complete_json_str)
+            print("JSON success:", parsed_data)
+        except ujson.JSONDecodeError as e:
+            print(f"JSONDecodeError: {e}")
+
+        out_queue.put(process_json(ujson.loads(complete_json_str), language_id))
     return

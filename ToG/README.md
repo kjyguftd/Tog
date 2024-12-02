@@ -4,7 +4,7 @@ Upon successfully installing all the necessary configurations, you can proceed t
 
 ```sh
 python main_wiki.py \  # if you wanna use Wikidata as KG source, run main_wiki.py
---dataset cwq \ # dataset your wanna test, see ToG/data/README.md
+--dataset 'cwq' \ # dataset your wanna test, see ToG/data/README.md
 --max_length 256 \ 
 --temperature_exploration 0.4 \ # the temperature in exploration stage.
 --temperature_exploration 0 \ # the temperature in reasoning stage.

@@ -29,11 +29,11 @@ Downloading takes about 2-5 hours (depending on bandwidth).
 The original downloaded wikidata dump is a single file and combines different types of information (alias names, properties, relations, etc). We preprocess the dump by iterating over the compressed file, and saving information to different subdirectories. For more information, see the [Data Format](#data-format). To preprocess the dump, run:
 
 ```bash
-python3 preprocess_dump.py \ 
-    --input_file $PATH_TO_COMPRESSED_WIKI_JSON \
-    --out_dir $DIR_TO_SAVE_DATA_TO \
-    --batch_size $BATCH_SIZE \
-    --language_id $LANG
+python3 preprocess_dump.py `
+    --input_file 'data/blanton_data.json' `
+    --out_dir 'data/' `
+    --batch_size 4 `
+    --language_id 'en'
 ```
 
 These arguments are:

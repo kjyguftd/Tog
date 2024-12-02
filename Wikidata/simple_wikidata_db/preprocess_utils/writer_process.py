@@ -18,7 +18,6 @@ TABLE_NAMES = [
     'plabels',
 ]
 
-
 class Table:
     def __init__(self, path: Path, batch_size: int, table_name: str):
         self.table_dir = path / table_name
@@ -48,8 +47,8 @@ class Table:
             self.cur_file_writer = None
 
     def close(self):
-        self.cur_file_writer.close()
-
+        if self.cur_file_writer is not None:
+            self.cur_file_writer.close()
 
 class Writer:
     def __init__(self, path: Path, batch_size: int):
@@ -78,11 +77,10 @@ class Writer:
         for v in self.output_tables.values():
             v.close()
 
-
-def write_data(path: Path, batch_size: int, outout_queue: Queue):
+def write_data(path: Path, batch_size: int, output_queue: Queue):
     writer = Writer(path, batch_size)
     while True:
-        json_object = outout_queue.get()
+        json_object = output_queue.get()
         if json_object is None:
             break
         writer.write(json_object)

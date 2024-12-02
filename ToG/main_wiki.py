@@ -1,6 +1,9 @@
 from tqdm import tqdm
 import argparse
 import random
+
+from Wikidata.simple_wikidata_db import db_deploy
+from Wikidata.simple_wikidata_db.db_deploy.client import WikidataQueryClient
 from wiki_func import *
 from client import *
 
@@ -47,7 +50,8 @@ if __name__ == '__main__':
             server_addrs = f.readlines()
             server_addrs = [addr.strip() for addr in server_addrs]
         print(f"Server addresses: {server_addrs}")
-        wiki_client = MultiServerWikidataQueryClient(server_addrs)
+        wiki_client =  db_deploy.client.MultiServerWikidataQueryClient(server_addrs)
+
         for depth in range(1, args.depth+1):
             current_entity_relations_list = []
             i=0

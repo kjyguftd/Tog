@@ -1,3 +1,4 @@
+from CoT.cot_io import question_string
 from prompt_list import *
 import json
 import openai
@@ -302,6 +303,10 @@ def prepare_dataset(dataset_name):
         question_string = 'input'    
     elif dataset_name == 'creak':
         with open('../data/creak.json',encoding='utf-8') as f:
+            datas = json.load(f)
+        question_string = 'sentence'
+    elif dataset_name == 'recursive_results':
+        with open('../data/recursive_results.json',encoding='utf-8') as f:
             datas = json.load(f)
         question_string = 'sentence'
     else:
