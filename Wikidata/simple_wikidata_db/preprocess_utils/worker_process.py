@@ -202,18 +202,5 @@ def process_data(language_id: str, work_queue: Queue, out_queue: Queue):
         if len(json_obj) == 0:
             continue
 
-        json_fragments = []
-        while not work_queue.empty():
-            json_fragments.append(work_queue.get())
-
-        complete_json_str = '\n'.join(json_fragments)
-        print(f"Complete JSON String: {complete_json_str}")
-
-        try:
-            parsed_data = ujson.loads(complete_json_str)
-            print("JSON success:", parsed_data)
-        except ujson.JSONDecodeError as e:
-            print(f"JSONDecodeError: {e}")
-
-        out_queue.put(process_json(ujson.loads(complete_json_str), language_id))
+        out_queue.put(process_json(ujson.loads(json_obj), language_id))
     return

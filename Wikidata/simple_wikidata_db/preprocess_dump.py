@@ -12,7 +12,7 @@ from Wikidata.simple_wikidata_db.preprocess_utils.writer_process import Writer, 
 
 def get_arg_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input_file', type=str, default='D:\PycharmProjects\DS\ToG\data\\blanton_simple.json', help='path to wikidata json file')
+    parser.add_argument('--input_file', type=str, default='D:\PycharmProjects\DS\ToG\data\\blanton_data.json', help='path to wikidata json file')
     parser.add_argument('--out_dir', type=str, default='data/', help='path to output directory')
     parser.add_argument('--language_id', type=str, default='en', help='language identifier')
     parser.add_argument('--processes', type=int, default=1, help="number of concurrent processes to spin off.")
