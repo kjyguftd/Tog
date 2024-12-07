@@ -21,37 +21,6 @@ def get_arg_parser():
     parser.add_argument('--num_lines_in_dump', type=int, default=-1, help='Number of lines in dump. If -1, we will count the number of lines.')
     return parser
 
-# def read_data(input_file, num_lines_read, max_lines_to_read):
-#     print("Reading data...")
-#     try:
-#         with open(input_file, 'r', encoding='utf-8') as f:
-#             data = json.load(f)  # 读取整个 JSON 对象
-#             print("Data loaded from file")
-#             num_lines_read[0] = 1
-#             print(f"Processed object: {data}")
-#         return [data]  # 返回包含 JSON 对象的列表
-#     except json.JSONDecodeError as e:
-#         print(f"JSONDecodeError: {e}")
-#     except Exception as e:
-#         print(f"Unexpected error: {e}")
-#     finally:
-#         print("Exiting read_data function")
-#     return []
-
-# def process_data(language_id, data):
-#     print("Starting process_data...")
-#     processed_data = []
-#     for json_obj in data:
-#         try:
-#             print(f"Processing data: {json_obj}")
-#             # 模拟数据处理
-#             processed_data.append(json_obj)  # 假设 process_json 函数返回相同的数据
-#             print("Data processed")
-#         except Exception as e:
-#             print(f"Error processing data: {e} - Data: {json_obj}")
-#     print("Exiting process_data function")
-#     return processed_data
-
 def main():
     start = time.time()
     args = get_arg_parser().parse_args()
@@ -67,25 +36,6 @@ def main():
     input_file = Path(args.input_file)
     assert input_file.exists(), f"Input file {input_file} does not exist"
     max_lines_to_read = args.num_lines_read
-
-    # max_lines_to_read = args.num_lines_read
-    # num_lines_read = [0]
-    #
-    # print("Starting read process...")
-    # start = time.time()
-    # data = read_data(input_file, num_lines_read, max_lines_to_read)
-    # print(f"Done! Read {num_lines_read[0]} objects")
-    #
-    # if len(data) > 0:
-    #     print(f"Data in memory: {len(data)} items")
-    #
-    #     # 处理数据
-    #     processed_data = process_data(args.language_id, data)
-    #
-    #     # 写入数据
-    #     write_data(out_dir, args.batch_size, processed_data)
-    #
-    # print(f"Finished processing in {time.time() - start}s")
 
     # Processes for reading/processing/writing
     num_lines_read = multiprocessing.Value("i", 0)

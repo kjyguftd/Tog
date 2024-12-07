@@ -194,13 +194,48 @@ def process_json(obj, language_id="en"):
     return dict(out_data)
 
 
+# def process_data(language_id: str, work_queue: Queue, out_queue: Queue):
+#     while True:
+#         json_obj = work_queue.get()
+#         if json_obj is None:
+#             break
+#         if len(json_obj.strip()) == 0:
+#             continue
+#
+#         out_queue.put(process_json(ujson.loads(json_obj), language_id))
+#
+#     return
+
+
 def process_data(language_id: str, work_queue: Queue, out_queue: Queue):
     while True:
         json_obj = work_queue.get()
         if json_obj is None:
             break
-        if len(json_obj) == 0:
+        if len(json_obj.strip()) == 0:
             continue
 
-        out_queue.put(process_json(ujson.loads(json_obj), language_id))
+        try:
+            lines = json_obj.splitlines()
+            for i, line in enumerate(lines):
+                line = line.strip()
+                if not line or line == "[" or line == "]":
+                    continue
+                try:
+                    data = ujson.loads(line)
+                    if isinstance(data, dict):
+                        out_queue.put(process_json(data, language_id))
+                    elif isinstance(data, list):
+                        for item in data:
+                            out_queue.put(process_json(item, language_id))
+                    else:
+                        print(f"Unexpected data type at line {i + 1}: {type(data)}\n")
+                except ujson.JSONDecodeError as e:
+                    print(f"Error decoding JSON at line {i + 1}: {e}\n")
+                except TypeError as e:
+                    print(f"TypeError at line {i + 1}: {e} - {line}\n")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+
     return
+

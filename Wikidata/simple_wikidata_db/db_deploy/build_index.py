@@ -322,17 +322,17 @@ if __name__ == "__main__":
     parser.add_argument(
         "--input_dir",
         type=str,
-        required=True,
         help="Preprocessed Wikidata JSON file directory",
+        default="D:\PycharmProjects\DS\ToG\Wikidata\simple_wikidata_db\data"
     )
     parser.add_argument(
         "--output_dir",
         type=str,
-        required=True,
         help="Output directory",
+        default="D:\PycharmProjects\DS\ToG\Wikidata\simple_wikidata_db\data_output"
     )
-    parser.add_argument("--num_chunks", type=int, default=5)
-    parser.add_argument("--num_workers", type=int, default=400)
+    parser.add_argument("--num_chunks", type=int, default=2)
+    parser.add_argument("--num_workers", type=int, default=4)
     parser.add_argument("--chunk_idx", type=int, default=-1)
 
     args = parser.parse_args()

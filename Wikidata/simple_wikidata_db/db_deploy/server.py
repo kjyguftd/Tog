@@ -1,6 +1,7 @@
 import os
 import pickle
 import typing as tp
+import xmlrpc
 from collections import defaultdict
 from dataclasses import dataclass
 from functools import partial
@@ -41,7 +42,7 @@ class WikidataQueryServer:
         self,
         chunk_number: int,
         data_dir: str,
-        num_workers: int = 400,
+        num_workers: int = 4,
     ):
         self.num_workers = num_workers
         self.pool = Pool(processes=self.num_workers)
@@ -81,39 +82,39 @@ class WikidataQueryServer:
         print("Reading links ...")
         chunk_number = chunk_number + 1
         print(
-            f"Reading {args.data_dir}/indices/relation_entities_chunk_{chunk_number}.pickle"
+            f"Reading {args.data_output_dir}/relation_entities_chunk_{chunk_number}.pickle"
         )
         with open(
-            f"{args.data_dir}/indices/relation_entities_chunk_{chunk_number}.pickle",
+            f"{args.data_output_dir}/relation_entities_chunk_{chunk_number}.pickle",
             "rb",
         ) as handle:
             self.relation_entities = pickle.load(handle)
         print(
-            f"Reading {args.data_dir}/indices/tail_entities_chunk_{chunk_number}.pickle"
+            f"Reading {args.data_output_dir}/tail_entities_chunk_{chunk_number}.pickle"
         )
         with open(
-            f"{args.data_dir}/indices/tail_entities_chunk_{chunk_number}.pickle",
+            f"{args.data_output_dir}/tail_entities_chunk_{chunk_number}.pickle",
             "rb",
         ) as handle:
             self.tail_entities = pickle.load(handle)
         print(
-            f"Reading {args.data_dir}/indices/tail_values_chunk_{chunk_number}.pickle"
+            f"Reading {args.data_output_dir}/tail_values_chunk_{chunk_number}.pickle"
         )
         with open(
-            f"{args.data_dir}/indices/tail_values_chunk_{chunk_number}.pickle",
+            f"{args.data_output_dir}/tail_values_chunk_{chunk_number}.pickle",
             "rb",
         ) as handle:
             self.tail_values = pickle.load(handle)
         print(
-            f"Reading {args.data_dir}/indices/external_ids_chunk_{chunk_number}.pickle"
+            f"Reading {args.data_output_dir}/external_ids_chunk_{chunk_number}.pickle"
         )
         with open(
-            f"{args.data_dir}/indices/external_ids_chunk_{chunk_number}.pickle",
+            f"{args.data_output_dir}/external_ids_chunk_{chunk_number}.pickle",
             "rb",
         ) as handle:
             self.external_ids = pickle.load(handle)
         with open(
-            f"{args.data_dir}/indices/mid_to_qid_chunk_{chunk_number}.pickle",
+            f"{args.data_output_dir}/mid_to_qid_chunk_{chunk_number}.pickle",
             "rb",
         ) as handle:
             self.mid_to_qid = pickle.load(handle)
@@ -208,13 +209,25 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--data_dir", type=str, required=True, help="Path to the data directory"
+        "--data_dir",
+        type=str,
+        help="Path to the data directory",
+        default="D:\PycharmProjects\DS\ToG\Wikidata\simple_wikidata_db\data"
     )
     parser.add_argument(
-        "--chunk_number", type=int, required=True, help="Chunk number"
+        "--data_output_dir",
+        type=str,
+        help="Path to the data output directory",
+        default="D:\PycharmProjects\DS\ToG\Wikidata\simple_wikidata_db\data_output"
+    )
+    parser.add_argument(
+        "--chunk_number",
+        type=int,
+        help="Chunk number",
+        default=0
     )
     parser.add_argument("--port", type=int, default=23546, help="Port number")
-    parser.add_argument("--host_ip", type=str, required=True, help="Host IP")
+    parser.add_argument("--host_ip", type=str, help="Host IP", default="192.168.1.68")
     args = parser.parse_args()
     print("Start with my program now!!!")
     server = XMLRPCWikidataQueryServer(

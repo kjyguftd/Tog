@@ -1,9 +1,18 @@
 jsonlines
-openai
-SPARQLWrapper
-tqdm
-argparse
+openai~=1.51.2
+SPARQLWrapper~=2.0.0
+tqdm~=4.66.5
+argparse~=1.4.0
 
 # if need to use BM25, SentenceBERT as pruning tools.
 rank_bm25
 sentence_transformers 
+
+rank-bm25~=0.2.2
+sentence-transformers~=3.2.0
+ujson~=5.10.0
+traitlets~=5.14.3
+numpy~=2.1.2
+SQLAlchemy~=2.0.36
+requests~=2.32.3
+spacy~=3.8.2
