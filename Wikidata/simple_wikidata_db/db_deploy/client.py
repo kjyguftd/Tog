@@ -1,5 +1,6 @@
 import itertools
 import random
+import re
 import xmlrpc.client
 import typing as tp
 
@@ -168,13 +169,36 @@ if __name__ == "__main__":
     for key, value in property_dict.items():
         print(f"{key}: {value}")
 
-    print(search_wikidata_entity_id(start_entity), property_dict[entity_dict[start_entity]])
+    # print(search_wikidata_entity_id(start_entity), property_dict[entity_dict[start_entity]])
     entity = client.query_all('get_tail_entities_given_head_and_relation', search_wikidata_entity_id(start_entity), property_dict[entity_dict[start_entity]])
     ut = entity['head'] if entity['head'] else entity['tail']
-    print(ut[0]['qid'])
-    print(property_dict[entity_dict[entity_dict[start_entity]]])
+    # print(ut[0]['qid'])
+    # print(property_dict[entity_dict[entity_dict[start_entity]]])
     entity = client.query_all('get_tail_values_given_head_and_relation', ut[0]['qid'],
                               property_dict[entity_dict[entity_dict[start_entity]]])
-    entity_1 = client.query_all('get_tail_entities_given_head_and_relation', ut[0]['qid'],
-                              property_dict[entity_dict[entity_dict[start_entity]]])
-    print(entity)
+    answer = ', '.join(entity)
+    print(f'question: {question}\nanswer: {answer}\n')
+
+    question = "What is the official website of the city where blanton museum of art is located"
+    start_entity = find_start_entity(question).replace(' ', '_')
+    topic_entity = {search_wikidata_entity_id(start_entity): start_entity}
+    cleaned_tokens, entity_dict = clean_question(question)
+    property_dict = {}
+    for token in cleaned_tokens:
+        value = search_wikidata_property(token)
+        print(value)
+        property_dict[token] = value
+    for key, value in property_dict.items():
+        print(f"{key}: {value}")
+
+    # print(entity_dict[start_entity], property_dict[entity_dict[entity_dict[start_entity]]])
+    entity = client.query_all('get_tail_entities_given_head_and_relation', search_wikidata_entity_id(start_entity),
+                              property_dict[entity_dict[start_entity]])
+    first = entity['head'] if entity['head'] else entity['tail']
+    # print(first)
+    # print(property_dict[entity_dict[entity_dict[start_entity]]])
+    entity = client.query_all('get_tail_values_given_head_and_relation', first[0]['qid'],
+                              property_dict[entity_dict[entity_dict[entity_dict[start_entity]]]])
+    answer = ', '.join(entity)
+    print(f'question: {question}\nanswer: {answer}\n')
+

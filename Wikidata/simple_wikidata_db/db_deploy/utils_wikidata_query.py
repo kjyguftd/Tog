@@ -77,7 +77,8 @@ def clean_question(question):
 
     phrase_replacements = {
         "parent organization": "parent_organization",
-        "blanton museum of art": "blanton_museum_of_art"
+        "blanton museum of art": "blanton_museum_of_art",
+        "official website": "official_website"
     }
 
     for phrase, replacement in phrase_replacements.items():
