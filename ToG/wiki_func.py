@@ -84,7 +84,7 @@ def relation_search_prune(entity_id, entity_name, pre_relations, pre_head, quest
         head_relations = [relation for relation in head_relations if not abandon_rels(relation)]
         tail_relations = [relation for relation in tail_relations if not abandon_rels(relation)]
     
-    if len(pre_relations)!=0 and pre_head !=-1:
+    if len(pre_relations)!= 0 and pre_head != -1:
         tail_relations = [rel for rel in pre_relations if pre_head and rel not in tail_relations]
         head_relations = [rel for rel in pre_relations if not pre_head and rel not in head_relations]
 
