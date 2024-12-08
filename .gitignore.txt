@@ -1,1 +1,1 @@
-stanford-corenlp-4.5.7/stanford-corenlp-4.5.7-models.jar
+stanford-corenlp-4.5.7
